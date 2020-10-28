@@ -10,6 +10,11 @@ def load_points():
     # $v0 is the number of points
     # $v1 is the based address of points array
     # i.e., $v1 is x0, 4($v1) is y0, 8($v1) is x1, etc
+
+
+    #syscall
+    #open
+    #read
     return
 
 def output_closest_pair():
@@ -41,7 +46,7 @@ def euclidean_distance(x0, y0, x1, y1):
 
     return final
 
-def find_closest(length, base_address):
+def bruteish_find_closest(length, base_address):
     # $a0 is num_points, $a1 is array base address
     # $v0, $v1 is the address of the two points of the closest pair
     # i.e., $v0 is the address of x0 in the array, $v1 is the address of x1 in the array
@@ -60,19 +65,20 @@ def find_closest(length, base_address):
     return_x1 = 0 #v1
 
     least = 0x7FFFFFFF #2^31
-    while(comp < length-1):
-        cur = comp+8           # addi $t1, $t0, 8
-        while(cur < length):
-            distance = euclidean_distance(comp, comp+4, cur, cur+4)
+    cur = comp+8           # addi $t1, $t0, 8
+    while(cur < length):
+        distance = euclidean_distance(comp, comp+4, cur, cur+4)
             
-            if(distance < least):
-                least = distance
-                return_x0 = comp
-                return_x1 = cur
+        if(distance < least):
+            least = distance
+            return_x0 = comp
+            return_x1 = cur
 
-            cur+=8             # addi $t1, $t1, 8
+        cur+=8             # addi $t1, $t1, 8
 
-        comp+=8                # addi $t0, $t0, 8
+    if(length == 1):
+        return
 
-    return
+    bruteish_find_closest(length-1, comp+8)                # addi $t0, $t0, 8
 
+    #end
