@@ -10,9 +10,21 @@ def generate_random_array(number_of_coords):
         array += x,y
     return array
 
-for i in range(0, 10):
-    ar = generate_random_array(20)
-    sort = sort_by_x(len(ar), ar)
-    for j in range(0,len(sort)-2, 2):
-        if(sort[j] > sort[j+2]):
-            print("error")
+def test_sort(num):
+    for i in range(0, num):
+        ar = generate_random_array(20)
+        sort_x = sort_by_x(len(ar), ar)
+        print("x", sort_x)
+        for j in range(0,len(sort_x)-2, 2):
+            if(sort_x[j] > sort_x[j+2]):
+                print("error x", sort_x)
+
+    for i in range(0, num):
+        ar = generate_random_array(20)
+        sort_y = sort_by_y(len(ar), ar)
+        print("y", sort_y)
+        for j in range(0,len(sort_y)-2, 2):
+            if(sort_y[j+1] > sort_y[j+3]):
+                print("error y", sort_y)
+
+test_sort(10)

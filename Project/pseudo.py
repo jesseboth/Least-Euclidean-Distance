@@ -105,7 +105,37 @@ def sort_by_x(length, array):
                 array[i+1] = array[current_pos+1]
                 array[current_pos] = temp_x
                 array[current_pos+1] = temp_y
-                # sort_length += 2
+                break
+            if(i == current_pos and i != length):
+                sort_length+=2
+                current_pos+=2
+                break
+
+            i+=2
+
+    return array #for testing
+
+def sort_by_y(length, array):
+    # sort points in-place by x . Non-decrease order is applied
+    # $a0 is num_points, $a1 is array base address
+    # note that array has the order as x0, y0, x1, y1, x2, y3, ..., xn , yn
+
+    #x's are even
+
+    sort_length = 0
+    current_pos = 3
+
+    while(sort_length < length-2):
+
+        i = 1
+        while(i <= current_pos):
+            if(array[current_pos] < array[i]):
+                temp_x = array[i-1]
+                temp_y = array[i]
+                array[i] = array[current_pos]
+                array[i-1] = array[current_pos-1]
+                array[current_pos-1] = temp_x
+                array[current_pos] = temp_y
                 break
             if(i == current_pos and i != length):
                 sort_length+=2
