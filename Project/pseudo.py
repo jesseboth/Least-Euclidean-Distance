@@ -83,6 +83,12 @@ def bruteish_find_closest(length, base_address):
 
     #end
 
+"""
+Sorting algo are not the best, but written with an "easy" 
+assembly translation in mind
+"""
+
+
 #sort.s
 def sort_by_x(length, array):
     # sort points in-place by x . Non-decrease order is applied
@@ -120,7 +126,7 @@ def sort_by_y(length, array):
     # $a0 is num_points, $a1 is array base address
     # note that array has the order as x0, y0, x1, y1, x2, y3, ..., xn , yn
 
-    #x's are even
+    #y's are odd
 
     sort_length = 0
     current_pos = 3
