@@ -82,3 +82,36 @@ def bruteish_find_closest(length, base_address):
     bruteish_find_closest(length-1, comp+8)                # addi $t0, $t0, 8
 
     #end
+
+#sort.s
+def sort_by_x(length, array):
+    # sort points in-place by x . Non-decrease order is applied
+    # $a0 is num_points, $a1 is array base address
+    # note that array has the order as x0, y0, x1, y1, x2, y3, ..., xn , yn
+
+    #x's are even
+
+    sort_length = 0
+    current_pos = 2
+
+    while(sort_length < length-2):
+
+        i = 0
+        while(i <= current_pos):
+            if(array[current_pos] < array[i]):
+                temp_x = array[i]
+                temp_y = array[i+1]
+                array[i] = array[current_pos]
+                array[i+1] = array[current_pos+1]
+                array[current_pos] = temp_x
+                array[current_pos+1] = temp_y
+                # sort_length += 2
+                break
+            if(i == current_pos and i != length):
+                sort_length+=2
+                current_pos+=2
+                break
+
+            i+=2
+
+    return array #for testing
