@@ -4,16 +4,16 @@ euclidean_distance:
     # $v0 is the calculated distance
 
     #####  put your codes below this line #####
-    sub $t0, $a0, $a2 #x's
-    sub $t1, $a1, $a3 #y's
+    sub $t8, $a0, $a2 #x's
+    sub $t9, $a1, $a3 #y's
 
-    mult $t0, $t0 #square x
-    mflo $t0      #store x
+    mult $t8, $t8 #square x
+    mflo $t8      #store x
 
-    mult $t1, $t1 #square y
-    mflo, $t1     #store y
+    mult $t9, $t9 #square y
+    mflo, $t9     #store y
 
-    add $v0, $t0, $t1
+    add $v0, $t8, $t9
 
     #####  put your codes above this line #####
     jr $ra
