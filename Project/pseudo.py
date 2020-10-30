@@ -100,9 +100,11 @@ def sort_by_x(length, array):
     sort_length = 0
     current_pos = 2
 
+    check_pos = 0
+
     while(sort_length < length-2):
 
-        i = 0
+        i = check_pos
         while(i <= current_pos):
             if(array[current_pos] < array[i]):
                 temp_x = array[i]
@@ -111,10 +113,13 @@ def sort_by_x(length, array):
                 array[i+1] = array[current_pos+1]
                 array[current_pos] = temp_x
                 array[current_pos+1] = temp_y
+
+                check_pos = i #used to shift elements
                 break
             if(i == current_pos and i != length):
                 sort_length+=2
                 current_pos+=2
+                check_pos = 0
                 break
 
             i+=2
@@ -131,9 +136,11 @@ def sort_by_y(length, array):
     sort_length = 0
     current_pos = 3
 
+    check_pos = 1
+
     while(sort_length < length-2):
 
-        i = 1
+        i = check_pos
         while(i <= current_pos):
             if(array[current_pos] < array[i]):
                 temp_x = array[i-1]
@@ -142,10 +149,13 @@ def sort_by_y(length, array):
                 array[i-1] = array[current_pos-1]
                 array[current_pos-1] = temp_x
                 array[current_pos] = temp_y
+
+                check_pos = i #shift elements right
                 break
             if(i == current_pos and i != length):
                 sort_length+=2
                 current_pos+=2
+                check_pos = 1
                 break
 
             i+=2
