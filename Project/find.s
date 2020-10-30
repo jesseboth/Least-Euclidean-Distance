@@ -8,6 +8,7 @@ find_closest:
 
     #####  put your codes below this line #####
 
+    #---------------------------------------------------------------#
     #Euclidean:
         # $a0 is x0 $a1 is y0; a2 is x1 a3 is y1
         # $v0 is the calculated distance
@@ -20,32 +21,48 @@ find_closest:
         #$s2 = least
         #$t0 = num_points
         #$t1 = baseaddress
+
     #---------------------------------------------------------------#
 
     move $t0, $a0 #num_points
     move $t1, $a1 #base_address
 
+    li $t3, 8 #index
+    sw $t4, $t3($t1) #2nd point
+    li $t5, 1 #count (numpoints -1)
+
     beq $s2, $zero max #if(s2 == 0)
     
     #check if done
     addi $t2, $zero, 1
-    beq $a0, 1, exit
+    beq $a0, $t2, exit
 
-    #find distance
-    j find_euclidean
+    #while loop
+    j loop
+
+    loop:
+        beq $t5, $t0, recurse #if t5 == t0 -> if count == num_points
+
+        sw $t4, $t3($t1) #next point
+
+        #store for next iteration
+        addi $t3, $t3, 8 #next pair index
+        addi $t5, $t5, 1 #count +1
+        
+        find_euclidean #check base_address and next point
+
 
     find_euclidean:
         sw $a0, 0($t1)  #x0
         sw $a1, 4($t1)  #y0
-        sw $a2, 8($t1)  #x1
-        sw $a3, 12($t1) #y1
-        jal eulcidean_distance
+        sw $a2, 0($t4)  #x1
+        sw $a3, 4($t4) #y1
+        jal euclidean_distance
 
         #check if d < least
         blt $v0, $s2, new_least
 
-        #again
-        j recurse
+        j loop
 
     new_least:
         move $s0, $a0 #store x0
@@ -54,8 +71,7 @@ find_closest:
 
         beq $s2, $zero, exit #exit if distance = 0
 
-        #again
-        j recurse
+        j loop
         
 
     recurse:
