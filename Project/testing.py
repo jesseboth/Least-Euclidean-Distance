@@ -27,4 +27,7 @@ def test_sort(num, coords):
             if(sort_y[j+1] > sort_y[j+3]):
                 print("error y", sort_y)
 
-test_sort(10, 1000)
+# test_sort(10, 1000)
+
+test_find = generate_random_array(100)
+check = find_closest_torun(len(test_find), 0, test_find, 0,0, 15680000)

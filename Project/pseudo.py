@@ -46,7 +46,48 @@ def euclidean_distance(x0, y0, x1, y1):
 
     return final
 
+
+#technically global:
+return_x0 = 0 #v0
+return_x1 = 0 #v1
+least = 15680000 #t3   0xEF4200
 def bruteish_find_closest(length, base_address):
+    # $a0 is num_points, $a1 is array base address
+    # $v0, $v1 is the address of the two points of the closest pair
+    # i.e., $v0 is the address of x0 in the array, $v1 is the address of x1 in the array
+
+    #x,y are 4 byte pairs
+    #|x0|y0|x1|y1|x2|y2|x3|y3|
+    #|4 |4 |4 |4 |4 |4 |4 |4 |
+    #|8    |8    |8    |8    |  
+    #pointer math
+
+    comp = base_address        #$a1
+    cur = 0                    #li $t0, 0
+    distance = 0               #li $t1, 0
+
+    cur = comp+8           # addi $t0, $t0, 8
+    while(cur < length):
+        distance = euclidean_distance(comp, comp+4, cur, cur+4)
+            
+        if(distance < least):
+            least = distance
+            return_x0 = comp
+            return_x1 = cur
+
+        cur+=8             # addi $t0, $t0, 8
+
+    if(length == 1):
+        return
+
+    bruteish_find_closest(length-1, comp+8)                # addi $t0, $t0, 8
+
+    #end
+
+
+return_x0 = 0 #v0
+return_x1 = 0 #v1
+def find_closest_torun(length, base_address, array, x0, x1, l):
     # $a0 is num_points, $a1 is array base address
     # $v0, $v1 is the address of the two points of the closest pair
     # i.e., $v0 is the address of x0 in the array, $v1 is the address of x1 in the array
@@ -60,28 +101,28 @@ def bruteish_find_closest(length, base_address):
     comp = base_address        #li $t0, 0
     cur = 0                    #li $t1, 0
     distance = 0               #li $t2, 0
+    least = l
 
-    return_x0 = 0 #v0
-    return_x1 = 0 #v1
+    return_x0 = x0 #v0
+    return_x1 = x1 #v1
 
-    least = 0x7FFFFFFF #2^31
-    cur = comp+8           # addi $t1, $t0, 8
+    cur = comp+2          # addi $t1, $t0, 8
     while(cur < length):
-        distance = euclidean_distance(comp, comp+4, cur, cur+4)
+        distance = euclidean_distance(array[comp], array[comp+1], array[cur], array[cur+1])
             
         if(distance < least):
             least = distance
             return_x0 = comp
             return_x1 = cur
 
-        cur+=8             # addi $t1, $t1, 8
+        cur+=2             # addi $t1, $t1, 8
 
     if(length == 1):
-        return
+        print(array[return_x0], array[return_x0+1], array[return_x1], array[return_x1+1])
+        return array[return_x0], array[return_x0+1], array[return_x1], array[return_x1+1]
+        
+    find_closest_torun(length-1, comp+2, array, return_x0, return_x1, least)                # addi $t0, $t0, 8
 
-    bruteish_find_closest(length-1, comp+8)                # addi $t0, $t0, 8
-
-    #end
 
 """
 Sorting algo are not the best, but written with an "easy" 
