@@ -49,7 +49,7 @@ find_closest:
         addi $t3, $t3, 8 #next pair index
         addi $t5, $t5, 1 #count +1
         
-        find_euclidean #check base_address and next point
+        j find_euclidean #check base_address and next point
 
 
     find_euclidean:
