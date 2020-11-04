@@ -28,7 +28,7 @@ find_closest:
     move $t1, $a1 #base_address
 
     li $t3, 8 #index
-    sw $t4, $t3($t1) #2nd point
+    sw $t4, 0($t1) #store for second point
     li $t5, 1 #count (numpoints -1)
 
     beq $s2, $zero max #if(s2 == 0)
@@ -43,7 +43,7 @@ find_closest:
     loop:
         beq $t5, $t0, recurse #if t5 == t0 -> if count == num_points
 
-        sw $t4, $t3($t1) #next point
+        sw $t4, 8($t4) #next point
 
         #store for next iteration
         addi $t3, $t3, 8 #next pair index
