@@ -22,7 +22,12 @@ bin = "14 00 00 00 DD 05 00 00 53 FA FF FF A4 F8 FF FF 2C FF FF FF A1 FB FF FF B
 def hex_dec(hex):
     h = hex.replace(" ", "")
     pwr = len(h)-1
-
+    mult = 1
+    add = 0
+    if(hex[0]=="F"):
+        h = two_comp(h)
+        mult = -1
+        add = 1
     total = 0
     for i in h:
         if i == "A":
@@ -41,7 +46,8 @@ def hex_dec(hex):
             total += int(i)*(16**pwr)
         pwr-=1
         
-        
+    total *= mult
+    total += add
     return total
 
 
@@ -73,16 +79,37 @@ def get_points(l):
     print("num_points", numpoints)
     pt = 1
     i = 1
+    ret = []
     while(i < len(l)):
         x = hex_dec(to_big_Endian(l[i]))
         y = hex_dec(to_big_Endian(l[i+1]))
         print(pt, (x,y), to_big_Endian(l[i]), "|", to_big_Endian(l[i+1]))
         pt+=1
         i+=2
+        ret += x,y
+    return ret
+def two_comp(s):
+    if(s[0] != "F"):
+        return s
+    ret = ""
+    hex_con = ["0", "1", "2","3","4","5","6","7","8","9","A","B","C","D","E","F"]
+    for i in s:
+        if i == "A":
+            ret+= hex_con[15-10]
+        elif i == "B":
+            ret+= hex_con[15-11]
+        elif i == "C":
+            ret+= hex_con[15-12]
+        elif i == "D":
+            ret+= hex_con[15-13]
+        elif i == "E":
+            ret+= hex_con[15-14]
+        elif i == "F":
+            ret+= hex_con[15-15]
+        else:
+            ret += hex_con[15-int(i)]
+    return ret
 
-
-def main():
-    get_points(sep_points(bin))
-    return 0
-
-main()
+def convert_hex():
+    pts = get_points(sep_points(bin)) #list of points x,y
+    return pts
