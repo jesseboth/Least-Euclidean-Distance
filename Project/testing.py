@@ -1,4 +1,5 @@
 from pseudo import *
+from hex import *
 import random
 
 def generate_random_array(number_of_coords):
@@ -29,5 +30,11 @@ def test_sort(num, coords):
 
 # test_sort(10, 1000)
 
-test_find = generate_random_array(100)
-check = find_closest_torun(len(test_find), 0, test_find, 0,0, 15680000)
+def main():
+    # test_find = generate_random_array(100)
+    # check = find_closest_torun(len(test_find), 0, test_find, 0,0, 15680000)
+    pts = convert_hex()
+    #find_closest_torun(length, base_address, array, x0, x1, l)
+    print("\n"+"The Cosest Points (x1,y1,x2,y2):")
+    find_closest_torun(len(pts), 0,            pts,  0,   0, 15680000)
+main()
