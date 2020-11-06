@@ -98,8 +98,8 @@ def find_closest_torun(length, base_address, array, x0, x1, l):
     #|8    |8    |8    |8    |  
     #pointer math
 
-    comp = base_address        #li $t0, 0
     cur = 0                    #li $t1, 0
+    comp = base_address        #li $t0, 0
     distance = 0               #li $t2, 0
     least = l
 
