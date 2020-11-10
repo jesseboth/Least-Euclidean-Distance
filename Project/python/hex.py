@@ -27,7 +27,7 @@ def hex_dec(hex):
     if(hex[0]=="F"):
         h = two_comp(h)
         mult = -1
-        add = 1
+        add = -1
     total = 0
     for i in h:
         if i == "A":
