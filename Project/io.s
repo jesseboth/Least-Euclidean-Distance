@@ -47,10 +47,48 @@ output_cloest_pair:
     # i.e., $a0 is the address of x0, 4($a0) is the address of y0, $a1 is the address of x1, etc.
 
     #####  put your codes below this line #####
+    move $t0, $a0
+    move $t1, $a1
 
+    #print string
+    li $v0, 4
+	la $a0, str_prefix_output
+	syscall
 
+    #print x0
+    li $v0, 1
+	lw $a0, 0($t0)
+	syscall
 
+    #print comma
+    li $a0, 0x2C
+    li $v0, 11
+    syscall  
+
+    #print y0
+    li $v0, 1
+	lw $a0, 4($t0)
+	syscall
+
+    #print comma
+    li $a0, 0x2C
+    li $v0, 11
+    syscall 
+
+    #print x1
+    li $v0, 1
+	lw $a0, 0($t1)
+	syscall
+
+    #print comma
+    li $a0, 0x2C
+    li $v0, 11
+    syscall 
     
+    #print y1
+    li $v0, 1
+	lw $a0, 4($t1)
+	syscall
     #####  put your codes above this line #####
     jr $ra
 
