@@ -1,7 +1,6 @@
 .data
     str_prefix_output: .asciiz "The closest pair of points is "
     num_points: .word 0
-    buffer: .space 4
 .text
 load_points:
     # $a0 is the based address of the file name string
@@ -10,32 +9,34 @@ load_points:
     # i.e., $v1 is x0, 4($v1) is y0, 8($v1) is x1, etc.
 
     #####  put your codes below this line #####
+    move $s1, $ra       #store return
 
+    #open the file
     li $v0, 13          # system call for open file
     li $a1, 0           #flag
     li $a2, 0           #mode
     syscall             # open a file 
 
-    move $a0, $v0       # save the file descriptor  
+    # save the file descriptor  
+    move $a0, $v0       
     move $s2, $v0
 
     jal load_points_helper
-
-
-    # li $a0, 0x3D        #new line
-    # li $v0, 11
-    # syscall 
 
     #store for return
     move $t0, $v0
     move $t1, $v1
 
-    li $v0, 16      #close
-    move $a0, $s2   #set file descriptor
+    #close the file
+    li $v0, 16          #close
+    move $a0, $s2       #set file descriptor
     syscall
 
+    #restore return values
     move $v0, $t0
     move $v1, $t1
+    move $ra, $s1       #replace return address
+
     #####  put your codes above this line #####
     jr $ra
 
@@ -62,91 +63,41 @@ load_points_helper:
     
     #####  put your codes below this line #####
 
-    move $t8, $a0
-    # reading from file just opened
-    li   $v0, 14        #read
-    la   $a1, buffer    # address
-    li   $a2,  4        # length to get num_points
-    syscall            
+    move $t8, $a0       #store file descriptor
 
-    # saving num_points
-    la  $t0, buffer     #location
-    lw $t1, 0($t0)      #save numpoints
-    sw $t1, num_points  #store value
+    #get space for num_points
+    li $v0, 9           #sbrk
+    li $a0, 8           #sizeof int
+    syscall
+    move $t9, $v0       #save location
 
-    add $s0, $zero, $t1 #save numpoints
-    sll $s0, $s0, 3     #numpoints * 2 points * 4 bits
-    addi $s0, $s0, 4
-    sw $s0, buffer      #change buffer for the required space
-    addi $s0, $s0, -4
-    
-    #print numpoints
-    lw $a0, 0($t0)
-    li  $v0, 1          #print int
+    #read from file
+    li $v0,  14         #read
+    move $a0, $t8       #file desc
+    move $a1, $t9       #location
+    li $a2, 8           #length
     syscall
 
-    li $a0, 0xA        #new line
-    li $v0, 11
-    syscall  
+    #store num_points
+    lw $s0, 0($t9)      #save length to reg
+    sw $s0, num_points  #save length to num_points
+    sll $s0, $s0, 3     #num_points * 2 points * 4 bits       
 
-    # read from file with given length
-    li   $v0, 14        # read
-    move $a0, $t8
-    la   $a1, buffer    # address
-    move   $a2,  $s0    # length = numpoints * 2 points * 4 bits
+    #get space for points
+    li $v0, 9           #sbrk
+    move $a0, $s0       #space required
+    syscall
+    move $t9, $v0       #save location
+
+    #read from file to get points
+    li $v0, 14          #read
+    move $a0, $t8       #file desc
+    move $a1, $t9       #location
+    move $a2, $s0       #length
     syscall
 
-    #allocate space
-    li $v0 9          #sbrk
-    move $a0, $s0
-    syscall
-
-    # resave address
-    la $t0, buffer     #location
-    move $t1, $v0        #location of sbrk
-
-    move $t8, $v0        #store for return
-
-    lw $s1, num_points
-    li $t2, 0
-    loop:
-        beq $t2, $s1, exit
-
-        #x
-        lw $t3, 0($t0)
-        sw $t3, 0($t1)
-        #y
-        lw $t3, 4($t0)
-        sw $t3, 4($t1)
-
-
-        # print points
-        lw $a0, 0($t1)
-        li  $v0, 1
-        syscall
-        li $a0, 0x3B        #;
-        li $v0, 11
-        syscall
-        lw $a0, 4($t1)
-        li  $v0, 1
-        syscall   
-        li $a0, 0xA        #new line
-        li $v0, 11
-        syscall   
-
-        #to next address
-        addi $t0, $t0, 8
-        addi $t1, $t1, 8
-
-        addi $t2, $t2, 1
-        j loop 
-    
-    exit:
-        lw $v0, num_points
-        move $v1, $t8
-
-    li $a0, 0x23        #new line
-    li $v0, 11
-    syscall 
+    addi $t9, $t9, -4   #for some reason...    
+    lw $v0, num_points  #return numpoints
+    move $v1, $t9       #return location
     #####  put your codes above this line #####
     jr $ra
