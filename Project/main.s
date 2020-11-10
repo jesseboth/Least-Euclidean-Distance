@@ -3,32 +3,21 @@
 .globl main
 .text
     main:
-        # la $a0 filename
-        # jal load_points
-        # move $a0, $v0
-        # move $a1, $v1
-        # jal sort_points_by_x
-        # jal find_closest
-        # move $a0, $v0
-        # move $a1, $v1
-        # jal output_cloest_pair
-        # li $v0 10
-        # syscall
-#----------------------------------------------------#
-        j test
-
-    test:
         la $a0 filename
         jal load_points
         move $a0, $v0
         move $a1, $v1
-        jal print
-
+        jal print           #<---------Delete
+        # jal sort_points_by_x
+        jal find_closest
+        move $a0, $v0
+        move $a1, $v1
+        jal output_cloest_pair
         li $v0 10
         syscall
-
+######################################################        
+#----------------------------------------------------#
     print:
-        ################################
         move $s1, $a0
         move $t0, $a1
         li $t2, 0
@@ -64,8 +53,10 @@
 
         exit:
 
-        li $a0, 0x23        #new line
+        li $a0, 0xA        #new line
         li $v0, 11
         syscall
         jr $ra
-        ###############################
+#----------------------------------------------------#
+######################################################        
+        
