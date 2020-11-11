@@ -25,7 +25,7 @@ find_closest:
     move $t0, $a0           #num_points
     move $t1, $a1           #base_address
     move $t2, $a1           #point 2
-    addi $t3, $a0, -2       #decrementer
+    move $t3, $a0           #decrementer
 
     beq $s4, $zero, max      #if(s == 0)
     li $t5, 1
