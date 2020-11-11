@@ -8,6 +8,8 @@
         move $a0, $v0
         move $a1, $v1
         jal print           #<---------Delete
+        move $a0, $v0         #<---------Delete
+        move $a1, $v1         #<---------Delete
         # jal sort_points_by_x
         jal find_closest
         move $a0, $v0
@@ -56,6 +58,9 @@
         li $a0, 0xA        #new line
         li $v0, 11
         syscall
+        
+        move $v0, $s1
+        move $v1, $a1
         jr $ra
 #----------------------------------------------------#
 ######################################################        
