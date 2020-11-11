@@ -25,13 +25,14 @@ find_closest:
     move $t0, $a0           #num_points
     move $t1, $a1           #base_address
     move $t2, $a1           #point 2
-    move $t3, $a0           #decrementer
+    addi $t3, $a0, -1       #decrementer
 
     beq $s4, $zero, max      #if(s == 0)
     li $t5, 1
     beq $t0, $t5, exit   
 
     loop:
+
         beq $t3, $zero, recurse
         addi $t2, $t2, 8    #to next point
         addi $t3, $t3, -1   #decrement for next iter
