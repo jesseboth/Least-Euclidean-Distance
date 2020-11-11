@@ -4,6 +4,7 @@ euclidean_distance:
     # $v0 is the calculated distance
 
     #####  put your codes below this line #####
+
     sub $t8, $a0, $a2 #x's
     sub $t9, $a1, $a3 #y's
 
