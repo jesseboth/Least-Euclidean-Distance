@@ -7,10 +7,17 @@
         jal load_points
         move $a0, $v0
         move $a1, $v1
-        jal print           #<---------Delete
-        move $a0, $v0         #<---------Delete
-        move $a1, $v1         #<---------Delete
-        # jal sort_points_by_x
+        jal print               #<---------Delete
+        move $a0, $v0           #<---------Delete
+        move $a1, $v1           #<---------Delete
+        jal sort_points_by_x
+        jal print               #<---------Delete
+        move $a0, $v0           #<---------Delete
+        move $a1, $v1           #<---------Delete
+        jal sort_points_by_y    #<---------Delete
+        jal print               #<---------Delete
+        move $a0, $v0           #<---------Delete
+        move $a1, $v1           #<---------Delete
         jal find_closest
         move $a0, $v0
         move $a1, $v1
