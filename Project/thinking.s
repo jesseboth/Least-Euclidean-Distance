@@ -218,3 +218,153 @@ old_find_closest:
         #store the return values
         move $v0, $s0
         move $v1, $s1
+
+sort_points_by_x:
+
+    li $t8, 0               #sorted length
+    sll $s7, $a0, 3         #length
+    addi $t9, $s7, -8       #length -1 (stop)
+
+    #i
+    li $t0, 0               #i 
+    move $s0, $a1           #array[i]
+
+    #current pos
+    li $t1, 8               #current pos
+    addi $s1, $a1, 8        #array[current]
+
+    li $s2, 0               #check pos
+
+    while:
+        bge $t8, $t9, exit
+
+        add $s0, $a1, $s2   #array[i]
+        move $t0, $s2       #i = check_pos
+
+        while2:
+            bgt $t0, $t1, while #while(i <= current_pos):
+            
+            lw $t2, 0($s0)      #value of array[i]
+            lw $t3, 0($s1)      #value of array[current]
+            blt $t3, $t2, swap #if(array[current_pos] < array[i])
+            beq $$t0, $t1, if_helper #if(i == current_pos and i != length)
+
+            addi $t0, $t0, 8    #i+=2
+            addi $s1, $s1, 8
+
+    swap:
+        #point in i
+        lw $t2, 0($s0)
+        lw $t3, 4($s0)
+
+        #point in current
+        lw $t4, 0($s1)
+        lw $t5, 4($s1)
+
+        #array[i] = array[current_pos]
+        sw $t2, 0($s1)
+        sw $t3, 4($s1)
+
+        #array[current_pos] = array[i]
+        sw $t4, 0($s0)
+        sw $t5, 4($s0)
+
+        move $s2, $t0   #check_pos = i
+        j while
+
+    if_helper:
+        bne $t0, $s7, inc
+
+        #increment i
+        addi $t0, $t0, 8
+        addi $s0, $s0, 8
+
+        j while2    #continue inner loop
+
+
+    inc:
+        addi $t8, $t8, 8    #sorted length
+        addi $t1, $t1, 8    #current pos
+        addi $s1, $s1, 8
+        li $s2, 0
+
+        #increment i
+        addi $t0, $t0, 8
+        addi $s0, $s0, 8
+
+
+    exit:
+        move $v0, $a0
+        move $v1, $a1
+
+old_sort_points_by_x:
+    move $t0, $ra
+
+    move $t1, $a1               #i beginning
+    li $s0, 0                   #sorted length
+    sll $t2, $a0, 3             #length
+    addi $s1, $t2, -8           #when to stop
+    addi $s2, $a1, 8            #array[current_pos]
+    li $s3, 8                   #current pos int
+
+    li $s5, 0                   #check_pos int
+    while:
+        bge $s0, $s1, exit      #while(sort_length < length-1)
+
+        add $t1, $a1, $s5       #array[i]
+        move $s6, $s5           #i int
+    while2:
+        bgt $s6, $s3, while     #while(i <= current_pos):
+
+        lw $t8, 0($t1)          #array[i]
+        lw $t6, 0($s2)          #array[current_pos]
+        blt $t6, $t8, shift     #if(array[current_pos] < array[i])
+        beq $s6, $s3 if_helper  #if(i == current_pos and i != length)
+
+        addi $s6, $s6, 8        #i += 2
+        addi $t1, $t1, 8         #i += 2
+        j while2
+    
+    shift:
+        lw $t8, 0($t1)          #array[i]
+        lw $t9, 4($t1)          #array[i+1]
+
+        lw $t6, 0($s2)          #array[current_pos]
+        lw $t7, 4($s2)          # array[current_pos+1]
+
+        sw $t6, 0($t1)          #array[i] = array[current_pos]
+        sw $t7, 4($t1)          #array[i+1] = array[current_pos+1]
+
+        sw $t8, 0($s2)          #array[current_pos] = array[i]
+        sw $t9, 4($s2)          #array[current_pos] = array[i+1]
+
+        move $s5, $s6           #check_pos = i
+
+        addi $s6, $s6, 8        #i += 2
+        addi $t1, $t1, 8        #i += 2
+
+        j while                 #break
+
+    if_helper:
+        bne $s6, $s1, inc
+
+        addi $s6, $s6, 8        #i += 2
+        addi $t1, $t1, 8        #i += 2
+        j while2                #false
+
+    inc:
+        addi $s0, $s0, 8
+        addi $s2, $s2, 8        #array[current_pos+2]
+        addi $s3, $s3, 8        #current pos int
+        li $t5, 0
+
+        addi $s6, $s6, 8        #i += 2
+        addi $t1, $t1, 8        #i += 2
+
+        j while                 #break
+
+    exit:
+        move $ra, $t0
+        move $v0, $a0
+        move $v1, $a1
+    
