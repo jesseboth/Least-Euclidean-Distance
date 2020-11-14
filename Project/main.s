@@ -44,7 +44,7 @@
             lw $a0, 0($t0)
             li  $v0, 1
             syscall
-            li $a0, 0x3B        #;
+            li $a0, 0x09        #;
             li $v0, 11
             syscall
             lw $a0, 4($t0)
