@@ -28,13 +28,20 @@ def test_sort(num, coords):
             if(sort_y[j+1] > sort_y[j+3]):
                 print("error y", sort_y)
 
-test_sort(10, 1000)
+# test_sort(10, 1000)
 
 def main():
     # test_find = generate_random_array(100)
     # check = find_closest_torun(len(test_find), 0, test_find, 0,0, 15680000)
     pts = convert_hex()
     #find_closest_torun(length, base_address, array, x0, x1, l)
+    # sort_x = sort_by_x(len(pts), pts)
+    # for i in range(0, len(sort_x), 2):
+    #     print(sort_x[i])
+
+    sort_y = sort_by_y(len(pts), pts)
+    for i in range(1, len(sort_y), 2):
+        print(sort_y[i])
     print("\n"+"The Cosest Points (x1,y1,x2,y2):")
     find_closest_torun(len(pts), 0,            pts,  0,   0, 15680000)
 main()
