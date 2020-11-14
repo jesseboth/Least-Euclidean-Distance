@@ -11,7 +11,6 @@ def load_points():
     # $v1 is the based address of points array
     # i.e., $v1 is x0, 4($v1) is y0, 8($v1) is x1, etc
 
-
     #syscall
     #open
     #read
