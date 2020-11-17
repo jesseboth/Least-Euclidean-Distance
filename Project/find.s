@@ -69,12 +69,10 @@ find_closest:
         j loop
 
     exit:
-
-
         move $ra, $s7
         move $v0, $s0
         move $v1, $s1
-
+        li $s0, 0           #save if called again
     
     #####  put your codes above this line #####
     jr $ra
