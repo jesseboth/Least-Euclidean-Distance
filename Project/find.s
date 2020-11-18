@@ -1,6 +1,3 @@
-.data
-    hello: .asciiz "It is running\n"
-.text
 find_closest:
     # $a0 is num_points, $a1 is array base address
     # $v0, $v1 is the address of the two points of the closest pair

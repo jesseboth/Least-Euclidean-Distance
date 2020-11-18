@@ -1,6 +1,7 @@
 .data
     str_prefix_output: .asciiz "The closest pair of points is "
     num_points: .word 0
+    
 .text
 load_points:
     # $a0 is the based address of the file name string
@@ -139,3 +140,4 @@ load_points_helper:
     move $v1, $t9       #return location
     #####  put your codes above this line #####
     jr $ra
+    

@@ -129,5 +129,3 @@ sort_points_by_y:
     
     #####  put your codes above this line #####
     jr $ra
-
-    ######################################################        
