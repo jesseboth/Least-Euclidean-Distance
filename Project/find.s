@@ -16,17 +16,21 @@ find_closest:
         #$s1 = x1 (return value)
         #$s4 = least
     #---------------------------------------------------------------#
+    addi $sp, $sp, -12
+    sw $ra, 0($sp)          #store return
+    sw $a0, 4($sp)          #store num_points
+    sw $a1, 8($sp)          #store base_address
+    li $s4, 15680001        #2800^2 + 2800^2 +1
 
-    move $s7, $ra           #store return
 
-    move $t0, $a0           #num_points
-    move $t1, $a1           #base_address
-    move $t2, $a1           #point 2
-    addi $t3, $a0, -1       #decrementer
+    find_it:
+        move $t0, $a0           #num_points
+        move $t1, $a1           #base_address
+        move $t2, $a1           #point 2
+        addi $t3, $a0, -1       #decrementer
 
-    beq $s4, $zero, max      #if(s == 0)
-    li $t5, 1
-    beq $t0, $t5, exit   
+        li $t5, 1
+        beq $t0, $t5, exit   
 
     loop:
 
@@ -59,17 +63,14 @@ find_closest:
         addi $a0, $t0, -1   #num_points -1
         addi $a1, $t1, 8    #next point
         move $ra, $s7       #save return
-        j find_closest
-
-    max:
-        li $s4, 15680001    #2800^2 + 2800^2 +1
-        j loop
+        j find_it
 
     exit:
-        move $ra, $s7
+        lw $ra, 0($sp)          #restore return
+        lw $a0, 4($sp)          #restore num_points
+        lw $a1, 8($sp)          #restore base_address
         move $v0, $s0
         move $v1, $s1
-        li $s0, 0           #save if called again
     
     #####  put your codes above this line #####
     jr $ra
