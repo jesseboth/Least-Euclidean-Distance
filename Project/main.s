@@ -19,18 +19,9 @@
         move $a0, $v0           #<---------Delete
         move $a1, $v1           #<---------Delete
         jal find_closest
-        move $s5, $a0           #<---------Delete
-        move $s6, $a1           #<---------Delete
         move $a0, $v0
         move $a1, $v1
         jal output_cloest_pair
-
-        move $a0, $s5           #<---------Delete
-        move $a1, $s6           #<---------Delete
-        jal find_closest        #<---------Delete
-        move $a0, $v0           #<---------Delete
-        move $a1, $v1           #<---------Delete
-        jal output_cloest_pair  #<---------Delete
         li $v0 10
         syscall
 ######################################################        

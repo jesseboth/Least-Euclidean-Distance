@@ -24,10 +24,10 @@ find_closest:
 
 
     find_it:
-        move $t0, $a0           #num_points
-        move $t1, $a1           #base_address
-        move $t2, $a1           #point 2
-        addi $t3, $a0, -1       #decrementer
+        move $t0, $a0       #num_points
+        move $t1, $a1       #base_address
+        move $t2, $a1       #point 2
+        addi $t3, $a0, -1   #decrementer
 
         li $t5, 1
         beq $t0, $t5, exit   
@@ -66,9 +66,9 @@ find_closest:
         j find_it
 
     exit:
-        lw $ra, 0($sp)          #restore return
-        lw $a0, 4($sp)          #restore num_points
-        lw $a1, 8($sp)          #restore base_address
+        lw $ra, 0($sp)      #restore return
+        lw $a0, 4($sp)      #restore num_points
+        lw $a1, 8($sp)      #restore base_address
         move $v0, $s0
         move $v1, $s1
     
