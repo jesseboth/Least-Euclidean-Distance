@@ -106,7 +106,7 @@ load_points_helper:
 
     #get space for num_points
     li $v0, 9           #sbrk
-    li $a0, 8           #sizeof int
+    li $a0, 4           #sizeof int
     syscall
     move $t9, $v0       #save location
 
@@ -114,7 +114,7 @@ load_points_helper:
     li $v0,  14         #read
     move $a0, $t8       #file desc
     move $a1, $t9       #location
-    li $a2, 8           #length
+    li $a2, 4           #length
     syscall
 
     #store num_points
@@ -135,7 +135,6 @@ load_points_helper:
     move $a2, $s0       #length
     syscall
 
-    addi $t9, $t9, -4   #for some reason...    
     lw $v0, num_points  #return numpoints
     move $v1, $t9       #return location
     #####  put your codes above this line #####
