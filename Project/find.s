@@ -20,7 +20,7 @@ find_closest:
     sw $ra, 0($sp)          #store return
     sw $a0, 4($sp)          #store num_points
     sw $a1, 8($sp)          #store base_address
-    li $s4, 15680001        #2800^2 + 2800^2 +1
+    li $s4, 8388609         #2048^2 + 2048^2 +1
 
 
     find_it:
