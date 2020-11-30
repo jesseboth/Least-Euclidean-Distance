@@ -56,7 +56,6 @@ sort_points_by_x:
         addi $s1, $t1, 8    #next point
         j sort_x
 
-        
 
     exit_x:
 
@@ -122,10 +121,7 @@ sort_points_by_y:
         j sort_y
 
         
-
     exit_y:
 
-
-    
     #####  put your codes above this line #####
     jr $ra
