@@ -62,7 +62,6 @@ find_closest:
     recurse:
         addi $a0, $t0, -1   #num_points -1
         addi $a1, $t1, 8    #next point
-        move $ra, $s7       #save return
         j find_it
 
     exit:
