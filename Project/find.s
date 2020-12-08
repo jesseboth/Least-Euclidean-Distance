@@ -1,3 +1,4 @@
+#algo: recursive n^2/2
 find_closest:
     # $a0 is num_points, $a1 is array base address
     # $v0, $v1 is the address of the two points of the closest pair
@@ -16,12 +17,7 @@ find_closest:
         #$s1 = x1 (return value)
         #$s4 = least
     #---------------------------------------------------------------#
-    addi $sp, $sp, -12
-    sw $ra, 0($sp)          #store return
-    sw $a0, 4($sp)          #store num_points
-    sw $a1, 8($sp)          #store base_address
-    li $s4, 33554433        #4096^2 + 4096^2 +1
-
+    beq $s3, $0, max
 
     find_it:
         move $t0, $a0       #num_points
@@ -62,9 +58,19 @@ find_closest:
     recurse:
         addi $a0, $t0, -1   #num_points -1
         addi $a1, $t1, 8    #next point
+        j find_closest
+        
+    max:
+        addi $s3, $s3, 1
+        addi $sp, $sp, -12
+        sw $ra, 0($sp)          #store return
+        sw $a0, 4($sp)          #store num_points
+        sw $a1, 8($sp)          #store base_address
+        li $s4, 33554433        #4096^2 + 4096^2 +1
         j find_it
 
     exit:
+        addi $s3, $s3, -1
         lw $ra, 0($sp)      #restore return
         lw $a0, 4($sp)      #restore num_points
         lw $a1, 8($sp)      #restore base_address
