@@ -74,6 +74,7 @@ find_closest:
         lw $ra, 0($sp)      #restore return
         lw $a0, 4($sp)      #restore num_points
         lw $a1, 8($sp)      #restore base_address
+        addi $sp, $sp, 12   #restore stack
         move $v0, $s0
         move $v1, $s1
     
