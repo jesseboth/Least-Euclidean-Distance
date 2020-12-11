@@ -104,22 +104,15 @@ load_points_helper:
 
     move $t8, $a0       #store file descriptor
 
-    #get space for num_points
-    li $v0, 9           #sbrk
-    li $a0, 4           #sizeof int
-    syscall
-    move $t9, $v0       #save location
-
     #read from file
     li $v0,  14         #read
     move $a0, $t8       #file desc
-    move $a1, $t9       #location
+    la $a1, num_points  #location
     li $a2, 4           #length
     syscall
 
     #store num_points
-    lw $s0, 0($t9)      #save length to reg
-    sw $s0, num_points  #save length to num_points
+    lw $s0, num_points
     sll $s0, $s0, 3     #num_points * 2 points * 4 bits       
 
     #get space for points
